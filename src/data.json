@@ -1,0 +1,117 @@
+{
+  "NOTES": [
+    {
+      "id": 1,
+      "noteName": "Arsenal Season Start",
+      "creationDate": "2022-08-22T19:10:00Z",
+      "category": 1,
+      "noteContent": "It should be good idea to get another middlefield because of high risk of new Thomas Party injury",
+      "isArchived": true
+    },
+    {
+      "id": 2,
+      "noteName": "Main principle behind 4 houses of Hogwarts ",
+      "creationDate": "2022-01-11T06:23:09Z",
+      "category": 1,
+      "noteContent": "It seems to me that 4 types of temperament is the main idea behind four different houses of Hogwarts",
+      "isArchived": false
+    },
+    {
+      "id": 3,
+      "noteName": "Winter Tyres",
+      "creationDate": "2022-09-05T16:10:00Z",
+      "category": 2,
+      "noteContent": "Don't forget to buy new winter Bridgestone Tyres",
+      "isArchived": false
+    },
+    {
+      "id": 4,
+      "noteName": "Rescheduling of my visit to dentist",
+      "creationDate": "2022-07-12T18:02:00Z",
+      "category": 2,
+      "noteContent": "Need to plan three next visits to my dentist for 19/7/2022, 2/8/2022 та 28/11/2022",
+      "isArchived": false
+    },
+    {
+      "id": 5,
+      "noteName": "Make Donate for Pritula Foundation!",
+      "creationDate": "2022-02-25T12:02:00Z",
+      "category": "3",
+      "noteContent": "Russian Warship go fuck yourself again again",
+      "isArchived": false
+    },
+    {
+      "id": 6,
+      "noteName": "Surf Thought 12",
+      "creationDate": "2022-01-01T12:00:00Z",
+      "category": "1",
+      "noteContent": "Ocean surf is good metaphore for usual life: you had to paddle 98% of time to have 2% enjoinhg of riding the wave",
+      "isArchived": false
+    },
+    {
+      "id": 7,
+      "noteName": "Croissant Rates!!!",
+      "creationDate": "2022-09-02T10:30:00Z",
+      "category": "3",
+      "noteContent": "1) Zavertailo; 2) Etre Sophie",
+      "isArchived": false
+    },
+    {
+      "noteName": "Second Note To add",
+      "creationDate": "2022-09-21T17:47:38.898Z",
+      "category": "3",
+      "noteContent": "Fixed and Worked",
+      "isArchived": true,
+      "id": 9
+    },
+    {
+      "noteName": "Tring to close",
+      "creationDate": "2022-09-21T18:19:23.872Z",
+      "category": "1",
+      "noteContent": "How to close js window",
+      "isArchived": true,
+      "id": 11
+    },
+    {
+      "noteName": "8999",
+      "creationDate": "2022-09-21T18:26:40.303Z",
+      "category": "3",
+      "noteContent": "Yu",
+      "isArchived": true,
+      "id": 14
+    },
+    {
+      "noteName": "Axios is a Great Client",
+      "creationDate": "2022-09-23T10:14:36.066Z",
+      "category": "3",
+      "noteContent": "Really!",
+      "isArchived": false,
+      "id": 15
+    },
+    {
+      "noteName": "qwe",
+      "creationDate": "2022-09-23T10:44:25.038Z",
+      "category": "3",
+      "noteContent": "qwe",
+      "isArchived": true,
+      "id": 17
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "categoryName": "Idea",
+      "categoryIcon": "/img/idea.png"
+    },
+    {
+      "id": 2,
+      "categoryName": "Task",
+      "categoryIcon": "/img/task.png"
+    },
+    {
+      "id": 3,
+      "categoryName": "Random Thought",
+      "categoryIcon": "/img/thinking-male.png"
+    }
+  ]
+}
