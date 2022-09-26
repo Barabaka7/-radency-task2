@@ -5,6 +5,7 @@ import {
   Note,
   Category,
   TableType,
+  FormState,
 } from "./utilities/fetchingData";
 
 //import { Provider } from "react-redux";
@@ -12,10 +13,13 @@ import {
 import { TableNotes } from "./containers/tableNotes/TableNotes";
 
 import "./App.css";
+import { CreateNote } from "./components/createNote/CreateNote";
 
 function App() {
   const [mode, setMode] = useState<string>("active");
-
+  const [formState, setFormState] = useState<FormState>({
+    createMode: false,
+  });
   const [notes, setNotes] = useState<Note[] | []>([]);
   const [categories, setCategories] = useState<Category[] | []>([]);
 
@@ -48,8 +52,27 @@ function App() {
             notes={notes}
             categories={categories}
             type={TableType.Active}
+            setFormState={setFormState}
           />
-          <button id="createNoteButton">Create Note</button>
+          <button
+            id="createNoteButton"
+            onClick={() => setFormState({ createMode: !formState.createMode })}
+          >
+            {formState.createMode ? "Close Form" : "Create Note"}
+          </button>
+          {formState.createMode ? (
+            <CreateNote
+              noteToEdit={
+                notes.filter(
+                  (n) => Number(n.id) === Number(formState.noteId)
+                )[0]
+              }
+              categories={categories}
+            />
+          ) : (
+            ""
+          )}
+          <h2>Summary</h2>
           <TableNotes
             notes={notes}
             categories={categories}

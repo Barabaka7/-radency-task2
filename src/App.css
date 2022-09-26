@@ -187,9 +187,17 @@ button {
   margin-right: 20%;
 }
 
+#createNote {
+  width: 80%;
+}
+
+h3.createNote {
+  margin-left: 50%;
+}
+
 .addNote {
-  width: 90%;
-  margin: 0 auto;
+  width: 50%;
+  margin: 0 0 0 auto;
 }
 
 .addNote input[type="text"] {

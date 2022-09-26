@@ -41,3 +41,8 @@ export enum TableType {
   Archive,
   Summary,
 }
+
+export interface FormState {
+  createMode: boolean;
+  noteId?: number;
+}

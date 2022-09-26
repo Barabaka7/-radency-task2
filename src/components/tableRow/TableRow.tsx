@@ -1,13 +1,38 @@
-import { Note, Category, TableType } from "../../utilities/fetchingData";
+import {
+  Note,
+  Category,
+  TableType,
+  FormState,
+} from "../../utilities/fetchingData";
 import { findDates } from "../../utilities/parsingDates";
 
 interface TableRowProps {
   note: Note;
   category: Category;
   type: TableType;
+  quantityActive?: number;
+  quantityArchive?: number;
+  setFormState?: (arg0: FormState) => void;
 }
 
-export const TableRow = ({ note, category, type }: TableRowProps) => {
+export const TableRow = ({
+  note,
+  category,
+  type,
+  quantityActive,
+  quantityArchive,
+  setFormState,
+}: TableRowProps) => {
+  const handleEditNoteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (setFormState) {
+      //  console.log(event.currentTarget.id);
+      setFormState({
+        createMode: true,
+        noteId: Number(event.currentTarget.id),
+      });
+    }
+  };
+
   const findedDates = findDates(note.noteContent);
 
   switch (type) {
@@ -39,6 +64,8 @@ export const TableRow = ({ note, category, type }: TableRowProps) => {
               name="editNote"
               title="Edit this Note"
               key={note.id}
+              id={String(note.id)}
+              onClick={handleEditNoteClick}
             >
               <img
                 className="tableHeaderIcon"
@@ -135,6 +162,19 @@ export const TableRow = ({ note, category, type }: TableRowProps) => {
       );
 
     case TableType.Summary:
-      return <span></span>;
+      return (
+        <tr className="regularRow">
+          <td>
+            <img
+              className="categoryIcon"
+              src={category.categoryIcon}
+              alt="Category Icon"
+            />
+          </td>
+          <td>{category.categoryName}</td>
+          <td>{quantityActive}</td>
+          <td>{quantityArchive}</td>
+        </tr>
+      );
   }
 };
