@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { RootState } from "../../store";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 // Interfaces
 
@@ -11,13 +13,15 @@ interface ISwitchMode {
   payload: string;
 }
 
+const initialState: string = "active";
+
 // Slice Object
 ///////////////////////////////////////
 export const modeSlice = createSlice({
   name: "mode",
-  initialState: "active",
+  initialState: initialState,
   reducers: {
-    switchMode: (state: string, action: ISwitchMode) => {
+    switchMode: (state, action: PayloadAction<string>) => {
       state = action.payload;
     },
   },
@@ -25,7 +29,7 @@ export const modeSlice = createSlice({
 
 // Selectors
 ///////////////////////////////////////
-export const selectMode = (state: string) => state;
+export const selectMode = (state: RootState) => state.mode;
 
 // Exports
 ///////////////////////////////////////

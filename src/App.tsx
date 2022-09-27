@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store, { useAppDispatch } from "./store";
+
 import {
   getNotes,
   getCategories,
@@ -8,31 +11,41 @@ import {
   FormState,
 } from "./utilities/fetchingData";
 
-import { Provider } from "react-redux";
-import store from "./store";
-import { TableNotes } from "./containers/tableNotes/TableNotes";
-
 import "./App.css";
+
+import { TableNotes } from "./containers/tableNotes/TableNotes";
+import {
+  loadAllNotes,
+  selectAllNotes,
+} from "./containers/tableNotes/notesSlice";
+import { selectAllCategories } from "./containers/tableNotes/categoriesSlice";
 import { CreateNote } from "./components/createNote/CreateNote";
+import { selectMode, switchMode } from "./containers/tableNotes/modeSlice";
 
 function App() {
-  const [mode, setMode] = useState<string>("active");
+  //  const [mode, setMode] = useState<string>("active");
   const [formState, setFormState] = useState<FormState>({
     createMode: false,
   });
-  const [notes, setNotes] = useState<Note[] | []>([]);
-  const [categories, setCategories] = useState<Category[] | []>([]);
+  //const [notes, setNotes] = useState<Note[] | []>([]);
+  //const [categories, setCategories] = useState<Category[] | []>([]);
 
-  const setter = async () => {
-    const notes = await getNotes();
-    setNotes(notes);
-    const categories = await getCategories();
-    setCategories(categories);
-  };
+  // const setter = async () => {
+  //   const notes = await getNotes();
+  //   setNotes(notes);
+  //   const categories = await getCategories();
+  //   setCategories(categories);
+  // };
 
   useEffect(() => {
-    setter();
+    // useAppDispatch()(loadAllNotes());
   }, []);
+
+  const dispatch = useDispatch();
+
+  const mode = useSelector(selectMode);
+  const notes = useSelector(selectAllNotes);
+  const categories = useSelector(selectAllCategories);
 
   return (
     <div className="App">
@@ -43,7 +56,7 @@ function App() {
             <button
               className="toArchive"
               onClick={() => {
-                setMode("archive");
+                dispatch(switchMode("archive"));
               }}
             >
               Show Archive
@@ -87,7 +100,7 @@ function App() {
             <button
               className="toActive"
               onClick={() => {
-                setMode("active");
+                dispatch(switchMode("active"));
               }}
             >
               Show Active Notes

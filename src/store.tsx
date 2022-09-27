@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 import modeSliceReducer from "./containers/tableNotes/modeSlice";
 import notesReducer from "./containers/tableNotes/notesSlice";
@@ -11,5 +12,10 @@ const store = configureStore({
     categories: cateriesReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
 export default store;

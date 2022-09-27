@@ -1,7 +1,9 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { getNotes, Note } from "../../utilities/fetchingData";
+import { RootState } from "../../store";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-const loadNotes = () => {
+export const loadNotes = () => {
   return async (dispatch: Dispatch) => {
     const notes = await getNotes();
     dispatch({ type: "notes/loadAllNotes", payload: notes });
@@ -49,47 +51,51 @@ interface IUnarchiveNote {
   payload: number;
 }
 
+// Define the initial state using that type
+const initialState: [] | Note[] = [];
+
 // Slice Object
 ///////////////////////////////////////
 
 export const notesSlice = createSlice({
   name: "notes",
-  initialState: [],
+  initialState,
   reducers: {
-    loadAllNotes: (state: Note[], action: ILoadNotes) => {
+    loadAllNotes: (state, action: PayloadAction<Note[]>) => {
       state = action.payload;
     },
-    addNote: (state: Note[], action: IAddNote) => {
-      state.push(action.payload);
+    addNote: (state, action: PayloadAction<Note>) => {
+      const newNote: Note = action.payload;
+      // state.push(newNote);
     },
-    editNote: (state: Note[], action: IEditNote) => {
-      state[state.findIndex((n) => n.id === action.payload.id)] =
+    editNote: (state, action: PayloadAction<Note>) => {
+      state[state.findIndex((n: Note) => n.id === action.payload.id)] =
         action.payload;
     },
-    deleteNote: (state: Note[], action: IDeleteNote) => {
+    deleteNote: (state, action: PayloadAction<number>) => {
       state.splice(
-        state.findIndex((n) => n.id === action.payload),
+        state.findIndex((n: Note) => n.id === action.payload),
         1
       );
     },
-    archiveNote: (state: Note[], action: IArchiveNote) => {
-      state.filter((n) => n.id === action.payload)[0].isArchived = true;
+    archiveNote: (state, action: PayloadAction<number>) => {
+      state.filter((n: Note) => n.id === action.payload)[0].isArchived = true;
     },
-    unarchiveNote: (state: Note[], action: IArchiveNote) => {
-      state.filter((n) => n.id === action.payload)[0].isArchived = false;
+    unarchiveNote: (state, action: PayloadAction<number>) => {
+      state.filter((n: Note) => n.id === action.payload)[0].isArchived = false;
     },
   },
 });
 
 // Selectors
 ///////////////////////////////////////
-export const selectAllNotes = (state: Note[]) => state;
+export const selectAllNotes = (state: RootState) => state.notes;
 
-export const selectNoteById = (state: Note[], id: number) =>
-  state.filter((n) => n.id === id)[0];
+export const selectNoteById = (state: RootState, id: number) =>
+  state.notes.filter((n: Note) => n.id === id)[0];
 
-export const selectNoteByCategory = (state: Note[], cat: number) =>
-  state.filter((n) => n.category === cat);
+export const selectNoteByCategory = (state: RootState, cat: number) =>
+  state.notes.filter((n: Note) => n.category === cat);
 
 // Exports
 ///////////////////////////////////////
