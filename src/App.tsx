@@ -8,8 +8,8 @@ import {
   FormState,
 } from "./utilities/fetchingData";
 
-//import { Provider } from "react-redux";
-//import store from '../store';
+import { Provider } from "react-redux";
+import store from "./store";
 import { TableNotes } from "./containers/tableNotes/TableNotes";
 
 import "./App.css";
@@ -36,68 +36,70 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Provider store={store}> */}
-      {mode === "active" ? (
-        <div className="activeNotes">
-          <h1>Active Notes</h1>
-          <button
-            className="toArchive"
-            onClick={() => {
-              setMode("archive");
-            }}
-          >
-            Show Archive
-          </button>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Active}
-            setFormState={setFormState}
-          />
-          <button
-            id="createNoteButton"
-            onClick={() => setFormState({ createMode: !formState.createMode })}
-          >
-            {formState.createMode ? "Close Form" : "Create Note"}
-          </button>
-          {formState.createMode ? (
-            <CreateNote
-              noteToEdit={
-                notes.filter(
-                  (n) => Number(n.id) === Number(formState.noteId)
-                )[0]
-              }
+      <Provider store={store}>
+        {mode === "active" ? (
+          <div className="activeNotes">
+            <h1>Active Notes</h1>
+            <button
+              className="toArchive"
+              onClick={() => {
+                setMode("archive");
+              }}
+            >
+              Show Archive
+            </button>
+            <TableNotes
+              notes={notes}
               categories={categories}
+              type={TableType.Active}
+              setFormState={setFormState}
             />
-          ) : (
-            ""
-          )}
-          <h2>Summary</h2>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Summary}
-          />
-        </div>
-      ) : (
-        <div className="archiveNotes">
-          <h1>Archived Notes</h1>
-          <button
-            className="toActive"
-            onClick={() => {
-              setMode("active");
-            }}
-          >
-            Show Active Notes
-          </button>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Archive}
-          />
-        </div>
-      )}
-      {/* </Provider> */}
+            <button
+              id="createNoteButton"
+              onClick={() =>
+                setFormState({ createMode: !formState.createMode })
+              }
+            >
+              {formState.createMode ? "Close Form" : "Create Note"}
+            </button>
+            {formState.createMode ? (
+              <CreateNote
+                noteToEdit={
+                  notes.filter(
+                    (n) => Number(n.id) === Number(formState.noteId)
+                  )[0]
+                }
+                categories={categories}
+              />
+            ) : (
+              ""
+            )}
+            <h2>Summary</h2>
+            <TableNotes
+              notes={notes}
+              categories={categories}
+              type={TableType.Summary}
+            />
+          </div>
+        ) : (
+          <div className="archiveNotes">
+            <h1>Archived Notes</h1>
+            <button
+              className="toActive"
+              onClick={() => {
+                setMode("active");
+              }}
+            >
+              Show Active Notes
+            </button>
+            <TableNotes
+              notes={notes}
+              categories={categories}
+              type={TableType.Archive}
+            />
+          </div>
+        )}
+      </Provider>
     </div>
   );
 }
