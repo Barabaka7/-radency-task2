@@ -14,19 +14,24 @@ import {
 import "./App.css";
 
 import { TableNotes } from "./containers/tableNotes/TableNotes";
+import { loadNotes, selectAllNotes } from "./containers/tableNotes/notesSlice";
 import {
-  loadAllNotes,
-  selectAllNotes,
-} from "./containers/tableNotes/notesSlice";
-import { selectAllCategories } from "./containers/tableNotes/categoriesSlice";
+  selectAllCategories,
+  loadCategories,
+} from "./containers/tableNotes/categoriesSlice";
 import { CreateNote } from "./components/createNote/CreateNote";
 import { selectMode, switchMode } from "./containers/tableNotes/modeSlice";
+import {
+  switchFormState,
+  selectFormState,
+} from "./components/createNote/createNoteSlice";
 
 function App() {
+  const dispatch = useAppDispatch();
   //  const [mode, setMode] = useState<string>("active");
-  const [formState, setFormState] = useState<FormState>({
-    createMode: false,
-  });
+  //const [formState, setFormState] = useState<FormState>({
+  //   createMode: false,
+  // });
   //const [notes, setNotes] = useState<Note[] | []>([]);
   //const [categories, setCategories] = useState<Category[] | []>([]);
 
@@ -37,15 +42,17 @@ function App() {
   //   setCategories(categories);
   // };
 
-  // useEffect(() => {
-  //   // useAppDispatch()(loadAllNotes());
-  // }, []);
-
-  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadNotes());
+    dispatch(loadCategories());
+  }, []);
 
   const mode = useSelector(selectMode);
   const notes = useSelector(selectAllNotes);
+  console.log(`notes: ${notes}`);
   const categories = useSelector(selectAllCategories);
+  console.log(`categories: ${categories}`);
+  const formStateMode = useSelector(selectFormState);
 
   return (
     <div className="App">
@@ -64,21 +71,21 @@ function App() {
             notes={notes}
             categories={categories}
             type={TableType.Active}
-            setFormState={setFormState}
+            // setFormState={setFormState}
           />
           <button
             id="createNoteButton"
-            onClick={() => setFormState({ createMode: !formState.createMode })}
+            onClick={() => dispatch(switchFormState(!formStateMode))}
           >
-            {formState.createMode ? "Close Form" : "Create Note"}
+            {formStateMode ? "Close Form" : "Create Note"}
           </button>
-          {formState.createMode ? (
+          {formStateMode ? (
             <CreateNote
-              noteToEdit={
-                notes.filter(
-                  (n) => Number(n.id) === Number(formState.noteId)
-                )[0]
-              }
+              // noteToEdit={
+              //   notes.filter(
+              //     (n) => Number(n.id) === Number(formState.noteId)
+              //   )[0]
+              // }
               categories={categories}
             />
           ) : (

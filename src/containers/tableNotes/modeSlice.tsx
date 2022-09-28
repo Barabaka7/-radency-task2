@@ -22,7 +22,7 @@ export const modeSlice = createSlice({
   initialState: initialState,
   reducers: {
     switchMode: (state, action: PayloadAction<string>) => {
-      state = action.payload;
+      return (state = action.payload);
     },
   },
 });

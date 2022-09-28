@@ -3,13 +3,15 @@ import { useDispatch } from "react-redux";
 
 import modeSliceReducer from "./containers/tableNotes/modeSlice";
 import notesReducer from "./containers/tableNotes/notesSlice";
-import cateriesReducer from "./containers/tableNotes/categoriesSlice";
+import categoriesReducer from "./containers/tableNotes/categoriesSlice";
+import formStateReducer from "./components/createNote/createNoteSlice";
 
 const store = configureStore({
   reducer: {
     mode: modeSliceReducer,
     notes: notesReducer,
-    categories: cateriesReducer,
+    categories: categoriesReducer,
+    formState: formStateReducer,
   },
 });
 

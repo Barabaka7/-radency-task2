@@ -6,7 +6,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export const loadNotes = () => {
   return async (dispatch: Dispatch) => {
     const notes = await getNotes();
-    dispatch({ type: "notes/loadAllNotes", payload: notes });
+    dispatch(loadAllNotes(notes));
   };
 };
 
@@ -59,14 +59,14 @@ const initialState: [] | Note[] = [];
 
 export const notesSlice = createSlice({
   name: "notes",
-  initialState,
+  initialState: initialState,
   reducers: {
     loadAllNotes: (state, action: PayloadAction<Note[]>) => {
-      state = action.payload;
+      return (state = action.payload);
     },
     addNote: (state, action: PayloadAction<Note>) => {
       const newNote: Note = action.payload;
-      // state.push(newNote);
+      //state.push(newNote);
     },
     editNote: (state, action: PayloadAction<Note>) => {
       state[state.findIndex((n: Note) => n.id === action.payload.id)] =

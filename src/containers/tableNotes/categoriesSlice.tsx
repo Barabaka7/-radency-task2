@@ -1,10 +1,12 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { getCategories, Category } from "../../utilities/fetchingData";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../store";
 
-const loadCategories = () => {
+export const loadCategories = () => {
   return async (dispatch: Dispatch) => {
     const categories = await getCategories();
-    dispatch({ type: "categories/loadAllCategories", payload: categories });
+    dispatch(loadAllCategories(categories));
   };
 };
 
@@ -19,28 +21,30 @@ interface ILoadCategories {
   payload: Category[];
 }
 
+const initialState: [] | Category[] = [];
+
 // Slice Object
 ///////////////////////////////////////
 
 export const categoriesSlice = createSlice({
   name: "categories",
-  initialState: [],
+  initialState: initialState,
   reducers: {
-    loadAllCategories: (state: Category[], action: ILoadCategories) => {
-      state = action.payload;
+    loadAllCategories: (state, action: PayloadAction<Category[]>) => {
+      return (state = action.payload);
     },
   },
 });
 
 // Selectors
 ///////////////////////////////////////
-export const selectAllCategories = (state: Category[]) => state;
+export const selectAllCategories = (state: RootState) => state.categories;
 
-export const selectCategoryById = (state: Category[], id: number) =>
-  state.filter((n) => n.id === id)[0];
+export const selectCategoryById = (state: RootState, id: number) =>
+  state.categories.filter((n) => n.id === id)[0];
 
-export const selectCategoryNameById = (state: Category[], cat_id: number) =>
-  state.filter((n) => n.id === cat_id)[0].categoryName;
+export const selectCategoryNameById = (state: RootState, cat_id: number) =>
+  state.categories.filter((n) => n.id === cat_id)[0].categoryName;
 
 // Exports
 ///////////////////////////////////////
