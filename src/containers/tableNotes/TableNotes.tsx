@@ -2,12 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { TableHeader } from "../../components/tableHeader/TableHeader";
 import { TableRow } from "../../components/tableRow/TableRow";
-import {
-  Note,
-  Category,
-  TableType,
-  FormState,
-} from "../../utilities/fetchingData";
+import { TableType } from "../../utilities/fetchingData";
 
 import { selectAllNotes } from "../tableNotes/notesSlice";
 import { selectAllCategories } from "../tableNotes/categoriesSlice";

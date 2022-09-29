@@ -2,17 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-// Interfaces
-
-interface IModeActions {
-  SWITCH_MODE: string;
-}
-
-interface ISwitchMode {
-  type: IModeActions["SWITCH_MODE"];
-  payload: string;
-}
-
 const initialState: string = "active";
 
 // Slice Object

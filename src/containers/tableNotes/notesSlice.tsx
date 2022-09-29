@@ -68,15 +68,8 @@ export const notesSlice = createSlice({
       state.length = 0;
     },
     deleteAllArchivedNotes: (state) => {
-      console.log("IndexToDelete");
-      const IndexToDelete = state
-        .map((n: Note, index) => (n.isArchived ? index : undefined))
-        .filter((i) => i);
-      console.log(IndexToDelete);
-
       const onlyActive = state.filter((n: Note) => !n.isArchived);
       return (state = onlyActive);
-      console.log(state);
     },
   },
 });

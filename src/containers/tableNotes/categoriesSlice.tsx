@@ -10,17 +10,6 @@ export const loadCategories = () => {
   };
 };
 
-// Interfaces
-
-interface ICategoriesActions {
-  LOAD_ALL_CATEGORIES: string;
-}
-
-interface ILoadCategories {
-  type: ICategoriesActions["LOAD_ALL_CATEGORIES"];
-  payload: Category[];
-}
-
 const initialState: Category[] = [];
 
 // Slice Object
