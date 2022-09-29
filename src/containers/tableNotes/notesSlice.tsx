@@ -1,5 +1,6 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { getNotes, Note } from "../../utilities/fetchingData";
+import { customAlphabet } from "nanoid/non-secure";
 import { RootState } from "../../store";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -26,33 +27,8 @@ interface ILoadNotes {
   payload: Note[];
 }
 
-interface IAddNote {
-  type: INoteActions["ADD_NOTE"];
-  payload: Note;
-}
-
-interface IEditNote {
-  type: INoteActions["EDIT_NOTE"];
-  payload: Note;
-}
-
-interface IDeleteNote {
-  type: INoteActions["DELETE_NOTE"];
-  payload: number;
-}
-
-interface IArchiveNote {
-  type: INoteActions["ARCHIVE_NOTE"];
-  payload: number;
-}
-
-interface IUnarchiveNote {
-  type: INoteActions["ARCHIVE_NOTE"];
-  payload: number;
-}
-
 // Define the initial state using that type
-const initialState: [] | Note[] = [];
+const initialState: Note[] = [];
 
 // Slice Object
 ///////////////////////////////////////
@@ -64,13 +40,27 @@ export const notesSlice = createSlice({
     loadAllNotes: (state, action: PayloadAction<Note[]>) => {
       return (state = action.payload);
     },
-    addNote: (state, action: PayloadAction<Note>) => {
-      const newNote: Note = action.payload;
-      //state.push(newNote);
+    addNote: {
+      reducer: (state, action: PayloadAction<Note>) => {
+        const newNote = action.payload;
+        state.push(newNote);
+      },
+      prepare: (almostNote: Omit<Note, "id">) => {
+        const nanoid = customAlphabet("1234567890", 10);
+        const id = Number(nanoid());
+        return { payload: { id: id, ...almostNote } };
+      },
     },
-    editNote: (state, action: PayloadAction<Note>) => {
-      state[state.findIndex((n: Note) => n.id === action.payload.id)] =
-        action.payload;
+    updateNote: (
+      state,
+      action: PayloadAction<
+        Pick<Note, "id" | "noteName" | "category" | "noteContent">
+      >
+    ) => {
+      const indexToUpdate = state.findIndex(
+        (n: Note) => n.id === action.payload.id
+      );
+      state[indexToUpdate] = { ...state[indexToUpdate], ...action.payload };
     },
     deleteNote: (state, action: PayloadAction<number>) => {
       state.splice(
@@ -84,6 +74,15 @@ export const notesSlice = createSlice({
     unarchiveNote: (state, action: PayloadAction<number>) => {
       state.filter((n: Note) => n.id === action.payload)[0].isArchived = false;
     },
+    archiveAllNotes: (state) => {
+      state.map((n: Note) => n.isArchived === true);
+    },
+    unarchiveAllNotes: (state) => {
+      state.map((n: Note) => n.isArchived === false);
+    },
+    deleteAllNotes: (state) => {
+      state.length = 0;
+    },
   },
 });
 
@@ -91,21 +90,30 @@ export const notesSlice = createSlice({
 ///////////////////////////////////////
 export const selectAllNotes = (state: RootState) => state.notes;
 
-export const selectNoteById = (state: RootState, id: number) =>
+export const selectNoteById = (id: number) => (state: RootState) =>
   state.notes.filter((n: Note) => n.id === id)[0];
 
-export const selectNoteByCategory = (state: RootState, cat: number) =>
+export const selectNoteByCategory = (cat: number) => (state: RootState) =>
   state.notes.filter((n: Note) => n.category === cat);
+
+export const selectActiveNotes = (state: RootState) =>
+  state.notes.filter((n: Note) => !n.isArchived);
+
+export const selectArchivedNotes = (state: RootState) =>
+  state.notes.filter((n: Note) => n.isArchived);
 
 // Exports
 ///////////////////////////////////////
 export const {
   loadAllNotes,
   addNote,
-  editNote,
+  updateNote,
   deleteNote,
   archiveNote,
   unarchiveNote,
+  archiveAllNotes,
+  unarchiveAllNotes,
+  deleteAllNotes,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

@@ -21,7 +21,7 @@ interface ILoadCategories {
   payload: Category[];
 }
 
-const initialState: [] | Category[] = [];
+const initialState: Category[] = [];
 
 // Slice Object
 ///////////////////////////////////////
@@ -40,10 +40,10 @@ export const categoriesSlice = createSlice({
 ///////////////////////////////////////
 export const selectAllCategories = (state: RootState) => state.categories;
 
-export const selectCategoryById = (state: RootState, id: number) =>
+export const selectCategoryById = (id: number) => (state: RootState) =>
   state.categories.filter((n) => n.id === id)[0];
 
-export const selectCategoryNameById = (state: RootState, cat_id: number) =>
+export const selectCategoryNameById = (cat_id: number) => (state: RootState) =>
   state.categories.filter((n) => n.id === cat_id)[0].categoryName;
 
 // Exports

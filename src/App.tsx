@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "./store";
 
-import {
-  getNotes,
-  getCategories,
-  Note,
-  Category,
-  TableType,
-  FormState,
-} from "./utilities/fetchingData";
+import { TableType, FormData } from "./utilities/fetchingData";
 
 import "./App.css";
 
 import { TableNotes } from "./containers/tableNotes/TableNotes";
-import { loadNotes, selectAllNotes } from "./containers/tableNotes/notesSlice";
+import { loadNotes } from "./containers/tableNotes/notesSlice";
 import {
   selectAllCategories,
   loadCategories,
@@ -28,6 +21,7 @@ import {
 
 function App() {
   const dispatch = useAppDispatch();
+
   //  const [mode, setMode] = useState<string>("active");
   //const [formState, setFormState] = useState<FormState>({
   //   createMode: false,
@@ -48,10 +42,6 @@ function App() {
   }, []);
 
   const mode = useSelector(selectMode);
-  const notes = useSelector(selectAllNotes);
-  console.log(`notes: ${notes}`);
-  const categories = useSelector(selectAllCategories);
-  console.log(`categories: ${categories}`);
   const formStateMode = useSelector(selectFormState);
 
   return (
@@ -67,36 +57,16 @@ function App() {
           >
             Show Archive
           </button>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Active}
-            // setFormState={setFormState}
-          />
+          <TableNotes type={TableType.Active} />
           <button
             id="createNoteButton"
             onClick={() => dispatch(switchFormState(!formStateMode))}
           >
             {formStateMode ? "Close Form" : "Create Note"}
           </button>
-          {formStateMode ? (
-            <CreateNote
-              // noteToEdit={
-              //   notes.filter(
-              //     (n) => Number(n.id) === Number(formState.noteId)
-              //   )[0]
-              // }
-              categories={categories}
-            />
-          ) : (
-            ""
-          )}
+          {formStateMode ? <CreateNote /> : ""}
           <h2>Summary</h2>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Summary}
-          />
+          <TableNotes type={TableType.Summary} />
         </div>
       ) : (
         <div className="archiveNotes">
@@ -109,11 +79,7 @@ function App() {
           >
             Show Active Notes
           </button>
-          <TableNotes
-            notes={notes}
-            categories={categories}
-            type={TableType.Archive}
-          />
+          <TableNotes type={TableType.Archive} />
         </div>
       )}
     </div>

@@ -21,6 +21,9 @@ export const formStateSlice = createSlice({
   reducers: {
     switchFormState: (state, action: PayloadAction<boolean>) => {
       state.createMode = action.payload;
+      if (action.payload === true) {
+        state.noteId = undefined;
+      }
     },
     setNoteToEditId: (state, action: PayloadAction<IFormState>) => {
       state.createMode = action.payload.createMode;
@@ -32,6 +35,8 @@ export const formStateSlice = createSlice({
 // Selectors
 ///////////////////////////////////////
 export const selectFormState = (state: RootState) => state.formState.createMode;
+
+export const selectFormNoteId = (state: RootState) => state.formState.noteId;
 
 // Exports
 ///////////////////////////////////////

@@ -1,10 +1,36 @@
 import { TableType } from "../../utilities/fetchingData";
+import {
+  archiveAllNotes,
+  unarchiveAllNotes,
+  deleteAllNotes,
+} from "../../containers/tableNotes/notesSlice";
+import { useAppDispatch } from "../../store";
 
 interface TableHeaderProps {
   type: TableType;
 }
 
 export const TableHeader = ({ type }: TableHeaderProps) => {
+  const dispatch = useAppDispatch();
+
+  const handleArchiveAllNotesClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(archiveAllNotes());
+  };
+
+  const handleUnarchiveAllNotesClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(unarchiveAllNotes());
+  };
+
+  const handleDeleteAllNotesClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(deleteAllNotes());
+  };
+
   switch (type) {
     case TableType.Active:
       return (
@@ -24,6 +50,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
                 name="archiveAll"
                 id="archiveAll"
                 title="Archive All Notes!"
+                onClick={handleArchiveAllNotesClick}
               >
                 <img
                   className="tableHeaderIcon"
@@ -39,6 +66,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
                 name="deleteAll"
                 id="deleteAll"
                 title="Delete All Notes!"
+                onClick={handleDeleteAllNotesClick}
               >
                 <img
                   className="tableHeaderIcon"
@@ -68,6 +96,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
                 name="unarchiveAll"
                 id="unarchiveAll"
                 title="Unarchive All Notes!"
+                onClick={handleUnarchiveAllNotesClick}
               >
                 <img
                   className="tableHeaderIcon"
@@ -83,6 +112,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
                 name="deleteAllArchive"
                 id="deleteAllArchive"
                 title="Delete All Notes from Archive!"
+                onClick={handleDeleteAllNotesClick}
               >
                 <img
                   className="tableHeaderIcon"

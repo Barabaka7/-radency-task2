@@ -32,7 +32,7 @@ export interface Note {
   noteName: string;
   creationDate: string;
   category: number;
-  noteContent: string;
+  noteContent?: string;
   isArchived: boolean;
 }
 
@@ -45,4 +45,11 @@ export enum TableType {
 export interface FormState {
   createMode: boolean;
   noteId?: number;
+}
+
+export interface FormData {
+  name?: string;
+  category?: string;
+  text?: string;
+  activateButton: boolean;
 }

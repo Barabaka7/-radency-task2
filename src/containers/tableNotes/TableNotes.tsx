@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { TableHeader } from "../../components/tableHeader/TableHeader";
 import { TableRow } from "../../components/tableRow/TableRow";
 import {
@@ -8,19 +9,17 @@ import {
   FormState,
 } from "../../utilities/fetchingData";
 
+import { selectAllNotes } from "../tableNotes/notesSlice";
+import { selectAllCategories } from "../tableNotes/categoriesSlice";
+
 interface TableNotesProps {
-  notes: Note[];
-  categories: Category[];
   type: TableType;
-  setFormState?: (arg0: FormState) => void;
 }
 
-export const TableNotes = ({
-  notes,
-  categories,
-  type,
-  setFormState,
-}: TableNotesProps) => {
+export const TableNotes = ({ type }: TableNotesProps) => {
+  const notes = useSelector(selectAllNotes);
+  const categories = useSelector(selectAllCategories);
+
   if (notes.length === 0 || categories.length === 0) return <div>No data</div>;
   else {
     let notesToShow: JSX.Element[] | [] = [];
@@ -40,7 +39,6 @@ export const TableNotes = ({
               category={category}
               type={type}
               key={note.id}
-              setFormState={setFormState}
             />
           );
         });

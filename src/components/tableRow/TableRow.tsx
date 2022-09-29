@@ -1,10 +1,12 @@
-import {
-  Note,
-  Category,
-  TableType,
-  FormState,
-} from "../../utilities/fetchingData";
+import { Note, Category, TableType } from "../../utilities/fetchingData";
 import { findDates } from "../../utilities/parsingDates";
+import { useAppDispatch } from "../../store";
+import { setNoteToEditId } from "../createNote/createNoteSlice";
+import {
+  archiveNote,
+  unarchiveNote,
+  deleteNote,
+} from "../../containers/tableNotes/notesSlice";
 
 interface TableRowProps {
   note: Note;
@@ -12,7 +14,6 @@ interface TableRowProps {
   type: TableType;
   quantityActive?: number;
   quantityArchive?: number;
-  setFormState?: (arg0: FormState) => void;
 }
 
 export const TableRow = ({
@@ -21,20 +22,41 @@ export const TableRow = ({
   type,
   quantityActive,
   quantityArchive,
-  setFormState,
 }: TableRowProps) => {
+  const dispatch = useAppDispatch();
+
   const handleEditNoteClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (setFormState) {
-      //  console.log(event.currentTarget.id);
-      setFormState({
+    dispatch(
+      setNoteToEditId({
         createMode: true,
         noteId: Number(event.currentTarget.id),
-      });
-    }
+      })
+    );
   };
 
-  const findedDates = findDates(note.noteContent);
+  const handleArchiveNoteClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(archiveNote(Number(event.currentTarget.id)));
+  };
 
+  const handleUnarchiveNoteClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(unarchiveNote(Number(event.currentTarget.id)));
+  };
+
+  const handleDeleteNoteClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(deleteNote(Number(event.currentTarget.id)));
+  };
+
+  let findedDates: string[] | null = [];
+
+  if (note.noteContent) {
+    findedDates = findDates(note.noteContent);
+  }
   switch (type) {
     case TableType.Active:
       return (
@@ -81,6 +103,8 @@ export const TableRow = ({
               name="archiveNote"
               title="Archive this Note"
               key={note.id}
+              id={String(note.id)}
+              onClick={handleArchiveNoteClick}
             >
               <img
                 className="tableHeaderIcon"
@@ -96,6 +120,8 @@ export const TableRow = ({
               name="deleteNote"
               title="Delete this Note"
               key={note.id}
+              id={String(note.id)}
+              onClick={handleDeleteNoteClick}
             >
               <img
                 className="tableHeaderIcon"
@@ -117,7 +143,7 @@ export const TableRow = ({
               alt="Category Icon"
             />
           </td>
-          <td>${note.noteName}</td>
+          <td>{note.noteName}</td>
           <td>
             {new Date(note.creationDate).toLocaleString("en-us", {
               month: "long",
@@ -135,6 +161,8 @@ export const TableRow = ({
               name="unarchiveNote"
               title="Unarchive this Note"
               key={note.id}
+              id={String(note.id)}
+              onClick={handleUnarchiveNoteClick}
             >
               <img
                 className="tableHeaderIcon"
@@ -150,6 +178,8 @@ export const TableRow = ({
               name="deleteNote"
               title="Delete this Note"
               key={note.id}
+              id={String(note.id)}
+              onClick={handleDeleteNoteClick}
             >
               <img
                 className="tableHeaderIcon"
