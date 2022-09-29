@@ -96,8 +96,6 @@ export const CreateNote = () => {
     );
   });
 
-  let buttonName = "Add Note";
-
   useEffect(() => {
     if (noteToEdit) {
       selectedOption = categories.filter(
@@ -111,7 +109,6 @@ export const CreateNote = () => {
         text: noteText,
         activateButton: false,
       });
-      buttonName = "Update Note";
     }
   }, [noteToEdit]);
 

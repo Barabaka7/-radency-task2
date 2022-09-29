@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "./store";
 
-import { TableType, FormData } from "./utilities/fetchingData";
+import { TableType } from "./utilities/fetchingData";
 
 import "./App.css";
 
 import { TableNotes } from "./containers/tableNotes/TableNotes";
 import { loadNotes } from "./containers/tableNotes/notesSlice";
-import {
-  selectAllCategories,
-  loadCategories,
-} from "./containers/tableNotes/categoriesSlice";
+import { loadCategories } from "./containers/tableNotes/categoriesSlice";
 import { CreateNote } from "./components/createNote/CreateNote";
 import { selectMode, switchMode } from "./containers/tableNotes/modeSlice";
 import {
@@ -39,7 +36,7 @@ function App() {
   useEffect(() => {
     dispatch(loadNotes());
     dispatch(loadCategories());
-  }, []);
+  }, [dispatch]);
 
   const mode = useSelector(selectMode);
   const formStateMode = useSelector(selectFormState);

@@ -11,23 +11,7 @@ export const loadNotes = () => {
   };
 };
 
-// Interfaces
-
-interface INoteActions {
-  LOAD_ALL_NOTES: string;
-  ADD_NOTE: string;
-  EDIT_NOTE: string;
-  DELETE_NOTE: string;
-  ARCHIVE_NOTE: string;
-  UNARCHIVE_NOTE: string;
-}
-
-interface ILoadNotes {
-  type: INoteActions["LOAD_ALL_NOTES"];
-  payload: Note[];
-}
-
-// Define the initial state using that type
+// Define the initial state
 const initialState: Note[] = [];
 
 // Slice Object
@@ -75,13 +59,24 @@ export const notesSlice = createSlice({
       state.filter((n: Note) => n.id === action.payload)[0].isArchived = false;
     },
     archiveAllNotes: (state) => {
-      state.map((n: Note) => n.isArchived === true);
+      state.map((n: Note) => (n.isArchived = true));
     },
     unarchiveAllNotes: (state) => {
-      state.map((n: Note) => n.isArchived === false);
+      state.map((n: Note) => (n.isArchived = false));
     },
     deleteAllNotes: (state) => {
       state.length = 0;
+    },
+    deleteAllArchivedNotes: (state) => {
+      console.log("IndexToDelete");
+      const IndexToDelete = state
+        .map((n: Note, index) => (n.isArchived ? index : undefined))
+        .filter((i) => i);
+      console.log(IndexToDelete);
+
+      const onlyActive = state.filter((n: Note) => !n.isArchived);
+      return (state = onlyActive);
+      console.log(state);
     },
   },
 });
@@ -114,6 +109,7 @@ export const {
   archiveAllNotes,
   unarchiveAllNotes,
   deleteAllNotes,
+  deleteAllArchivedNotes,
 } = notesSlice.actions;
 
 export default notesSlice.reducer;

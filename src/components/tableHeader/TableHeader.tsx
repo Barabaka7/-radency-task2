@@ -2,6 +2,7 @@ import { TableType } from "../../utilities/fetchingData";
 import {
   archiveAllNotes,
   unarchiveAllNotes,
+  deleteAllArchivedNotes,
   deleteAllNotes,
 } from "../../containers/tableNotes/notesSlice";
 import { useAppDispatch } from "../../store";
@@ -22,6 +23,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
   const handleUnarchiveAllNotesClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
+    console.log("Test");
     dispatch(unarchiveAllNotes());
   };
 
@@ -29,6 +31,12 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     dispatch(deleteAllNotes());
+  };
+
+  const handleDeleteAllArchivedNotesClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    dispatch(deleteAllArchivedNotes());
   };
 
   switch (type) {
@@ -112,7 +120,7 @@ export const TableHeader = ({ type }: TableHeaderProps) => {
                 name="deleteAllArchive"
                 id="deleteAllArchive"
                 title="Delete All Notes from Archive!"
-                onClick={handleDeleteAllNotesClick}
+                onClick={handleDeleteAllArchivedNotesClick}
               >
                 <img
                   className="tableHeaderIcon"
