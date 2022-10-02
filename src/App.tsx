@@ -19,20 +19,6 @@ import {
 function App() {
   const dispatch = useAppDispatch();
 
-  //  const [mode, setMode] = useState<string>("active");
-  //const [formState, setFormState] = useState<FormState>({
-  //   createMode: false,
-  // });
-  //const [notes, setNotes] = useState<Note[] | []>([]);
-  //const [categories, setCategories] = useState<Category[] | []>([]);
-
-  // const setter = async () => {
-  //   const notes = await getNotes();
-  //   setNotes(notes);
-  //   const categories = await getCategories();
-  //   setCategories(categories);
-  // };
-
   useEffect(() => {
     dispatch(loadNotes());
     dispatch(loadCategories());
